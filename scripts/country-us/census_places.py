@@ -416,7 +416,8 @@ def process_types(types):
             subdiv_rule = SUBDIV_RULES.get(state)
             parent_id = make_id(state=state)
 
-            row['_FUNCSTAT'] = funcstat = funcstat_func(row)
+            funcstat = funcstat_func(row)
+            row['_FUNCSTAT'] = funcstat
             funcstat_count[funcstat] += 1
 
             # skip inactive/fictitious/nonfunctioning/statistical/consolidated
@@ -441,7 +442,9 @@ def process_types(types):
                 else:
                     # skip independent cities indicated at county level
                     if (entity_type == 'county' and (name.endswith(' city') or
-                                                     name == 'Carson City')):
+                                                     name == 'Carson City') or
+                                                     name == 'Macon-Bibb County' or 
+                                                     name == 'Echols County consolidated government'):
                         continue
                     else:
                         raise ValueError('unknown ending: {} for {}'.format(name, row))
@@ -492,7 +495,7 @@ def process_types(types):
 
 
 if __name__ == '__main__':
-    # process_types(('county', 'place', 'subdiv'))
+    process_types(('county', 'place', 'subdiv'))
     #CDProcessor().process()
-    SLDUProcessor().process()
-    SLDLProcessor().process()
+    #SLDUProcessor().process()
+    #SLDLProcessor().process()
